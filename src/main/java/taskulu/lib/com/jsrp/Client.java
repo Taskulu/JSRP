@@ -137,7 +137,7 @@ public class Client {
      */
     public String getProof(String B, String salt)  {
 
-        byte[] saltB = new BigInteger(salt,16).toByteArray();
+        byte[] saltB = Transform.bigIntToArrayByte(new BigInteger(salt,16));
 
         String u = mSRP.u(Hex.decodeToByteArray(this.mSRP.getA().toString(16)),Hex.decodeToByteArray(B));
 
