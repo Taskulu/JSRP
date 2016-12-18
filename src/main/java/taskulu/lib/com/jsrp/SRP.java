@@ -1,7 +1,5 @@
 package taskulu.lib.com.jsrp;
 
-import android.util.Log;
-
 import java.math.BigInteger;
 import java.nio.charset.Charset;
 import java.security.MessageDigest;
@@ -105,7 +103,7 @@ public class SRP {
             verifierString = "0" + verifierResult.toString(16);
 
         verifier.setVerifier(verifierString);
-        verifier.setSalt(new BigInteger(salt).toString(16));
+        verifier.setSalt(Hex.encode(salt));
 
         return verifier;
     }
@@ -234,7 +232,7 @@ public class SRP {
      *
      * @param b bytes[] from B
      *
-     * @param K from {@link #k()}
+     * @param k from {@link #k()}
      *
      * @return Resulting that is byte[]
      */

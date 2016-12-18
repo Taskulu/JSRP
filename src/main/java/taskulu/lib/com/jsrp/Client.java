@@ -101,8 +101,14 @@ public class Client {
      */
     public Verifier createVerifier(){
 
-        BigInteger saltT = SRP.generateRandomSalt(256);
-        byte[] salt = Transform.bigIntToArrayByte(saltT);
+        byte[] salt = null;
+
+        // run simple loop to find valid salt
+        // to prevent null exception
+        while (salt == null){
+            BigInteger saltT = SRP.generateRandomSalt(256);
+            salt = Transform.bigIntToArrayByte(saltT);
+        }
 
         return mSRP.v(IU,PU,salt);
     }
