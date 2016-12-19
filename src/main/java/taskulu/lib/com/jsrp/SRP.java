@@ -1,7 +1,5 @@
 package taskulu.lib.com.jsrp;
 
-import android.util.Log;
-
 import java.math.BigInteger;
 import java.nio.charset.Charset;
 import java.security.MessageDigest;
@@ -89,14 +87,22 @@ public class SRP {
         this.mHash.update(":".getBytes(Charset.forName("UTF-8")));
         this.mHash.update(P);
 
-        byte[] tempHash = mHash.digest();
+        byte[] tempHash2 = mHash.digest();
+
+        System.out.println("\n IP");
+        System.out.println(Hex.encode(tempHash2));
+        System.out.println("\n");
 
         mHash.reset();
 
         mHash.update(salt);
-        mHash.update(tempHash);
+        mHash.update(tempHash2);
 
-        BigInteger hashResult = new BigInteger(mHash.digest());
+        System.out.println("\n center hash");
+        System.out.println(Hex.encode(mHash.digest()));
+        System.out.println("\n");
+
+        BigInteger hashResult = x(I,P,salt);
 
         BigInteger verifierResult = mG.modPow(hashResult,mPrime);
 
@@ -105,7 +111,7 @@ public class SRP {
             verifierString = "0" + verifierResult.toString(16);
 
         verifier.setVerifier(verifierString);
-        verifier.setSalt(new BigInteger(salt).toString(16));
+        verifier.setSalt(Hex.encode(salt));
 
         return verifier;
     }
@@ -234,7 +240,7 @@ public class SRP {
      *
      * @param b bytes[] from B
      *
-     * @param K from {@link #k()}
+     * @param k from {@link #k()}
      *
      * @return Resulting that is byte[]
      */
